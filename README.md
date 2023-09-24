@@ -10,6 +10,8 @@ the object is ready to use and the client side can see/use it.
 Yes, I'm aware of Knit. I actually created this before I was aware of Knit and I prefer it over Knit for a couple reasons.
 I can send objects easily to the client, I find it easier to use and I don't have to use Knit as a wrapper for my classes. 
 I can also easily add Links to classes that are already made instead of having to recreate them within Knits framework.
+If I want I can even utilize one Link instance for multiple systems/classes so that one or more systems on the client
+can communicate with one more systems on the server.
 </br>
 </br>
 
