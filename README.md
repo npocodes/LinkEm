@@ -1,5 +1,15 @@
 # LinkEm
-Client-Server Communication Module for Roblox 
+Client-Server Communication Module for Roblox.</br></br>
+This module handles all the nasty bits of client/server communication and makes it easy.
+It includes general/basic links for when many clients need to communicate to one game system/class.
+Or specific links for when a class utilizes instances unique to a specific player or if you simply only
+want one specific player to be able to communicate with the system/class on the server.
+You can even send objects/instances to the client very simply and LinkEm will take care of ensuring
+the object is ready to use and the client side can see/use it.
+
+Yes, I'm aware of Knit. I actually created this before I was aware of Knit and I prefer it over Knit for a couple reasons.
+I can send objects easily to the client, I find it easier to use and I don't have to use Knit as a wrapper for my classes. 
+I can also easily add Links to classes that are already made instead of having to recreate them within Knits framework.
 </br>
 </br>
 
