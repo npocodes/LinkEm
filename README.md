@@ -1,11 +1,12 @@
-# LinkEm - Client-Server Communication Module for Roblox
-  
-### Basic Usage Examples
-
-
+# LinkEm
+Client-Server Communication Module for Roblox 
+</br>
 </br>
 
-#### Create a new Link (General Link, not player specific)
+## Usage Examples
+</br>
+
+#### Create a new basic Link
 
 This should be done on both the client and server.
 ```lua
@@ -25,9 +26,9 @@ end)
 ```
 </br>
 
-#### Use a Link
+#### Use a basic Link
 
-From Client
+Client:
 ```lua
 Link:SendMsg("I Want Pickles", 5)
 Link:GetMsgSignal("Pickles Given"):Connect(function(data)
@@ -36,9 +37,63 @@ Link:GetMsgSignal("Pickles Given"):Connect(function(data)
 end)
 ```
 
-From Server
+Server:
 ```lua
 Link:GetMsgSignal("I Want Pickles"):Connect(function(player, data)
  Link:SendMsg("Pickles Given", data, player)
 end)
 ```
+</br>
+</br>
+
+#### Create a new specific Link
+
+Server:
+```lua
+ --Require the LinkEm Class into your work
+local LinkEm = require(game:GetService("ServerScriptService").LinkEm) --Server Side
+
+--Create a new Link to use and specify a player/client this link is for.
+--This tells LinkEm that this link should only work for the client specified.
+local Link = LinkEm.New("MyLinkName", playerObj)
+
+--Wait for the link to be established
+Link.Linked:Wait() 
+```
+
+Client:
+```lua
+ --Require the LinkEm Class into your work
+local LinkEm = require(game:GetService("ReplicatedStorage").LinkEm) --Client Side
+
+--Create a new Link to use and set the "UsePlayer" parameter to true
+--This tells LinkEm that this link should only work for this client.
+local Link = LinkEm.New("MyLinkName", true)
+
+--Wait for the link to be established
+Link.Linked:Wait() 
+```
+</br>
+
+#### Use a specific Link
+
+Client:
+```lua
+Link:SendMsg("I Want Pickles", 5)
+Link:GetMsgSignal("Pickles Given"):Connect(function(data)
+ print("I was given", data, "pickles.")
+ --Output: I was given 5 pickles.
+end)
+```
+
+Server:
+```lua
+Link:GetMsgSignal("I Want Pickles"):Connect(function(data)
+ Link:SendMsg("Pickles Given", data)
+end)
+```
+Because this link is specific to the player we gave when it was created.
+We no longer have to specify or check the player. LinkEm will automatically
+ignore any signals on this link for other clients.
+</br>
+</br>
