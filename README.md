@@ -3,6 +3,7 @@ Client-Server Communication Module for Roblox
 </br>
 </br>
 
+
 ## Usage Examples
 </br>
 
@@ -45,6 +46,7 @@ end)
 ```
 </br>
 </br>
+
 
 #### Create a new specific Link
 
@@ -97,3 +99,43 @@ We no longer have to specify or check the player. LinkEm will automatically
 ignore any signals on this link for other clients.
 </br>
 </br>
+
+
+#### Send an obj to the client
+
+Server:
+```lua
+--Create a new model to send to the client
+--This could be any sort of model, all of its descendants will also be sent.
+local myObject = Instance.new("Model")
+myObject.Name = "PickleJar"
+
+--Send the object. The first parameter is the object to send.
+--The second parameter is the MsgSignal the client should listen for.
+Link:SendObject(myObject, "NewPickleJar")
+
+--We could listen for requests for pickle jars as well
+Link:GetMsgSignal("RequestPickleJar"):Connect(function(data)
+ print("The client has requested a new pickle jar!")
+ Link:SendObject(myObject:Clone(), "NewPickleJar")
+end)
+```
+
+Client:
+```lua
+--Listen for the MsgSignal specified by the server and call a function
+--to handle the event.
+Link:GetMsgSignal("NewPickleJar"):Connect(function(sentObj: Instance)
+ print("The server sent me a", sentObj.Name)
+end)
+
+--Now if we needed to or wanted to...
+--We could actually request a new pickle jar... as long as the server
+--has a listener for a msg signal to respond to that request
+Link:SendMsg("RequestPickleJar")
+```
+LinkEm will handle all the nasty bits of sending the object to the client.
+Including making sure ALL of it is ready for the client to use before the event fires.
+So can we also send an object from the client to the server?!?! NO you cannot. lol
+This behavior is not desired which is why Roblox implemented safeguards for such a thing.
+What we do is simply request objects for the server to produce and tell the client about them.
